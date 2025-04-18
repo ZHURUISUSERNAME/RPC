@@ -1,0 +1,47 @@
+// 指定使用 proto3 语法。如果不指定，默认是 proto2。
+syntax = "proto3";
+
+// 定义一个包名，有助于防止命名冲突，生成的 Python 代码也会用到这个结构。
+package greeter;
+
+// 定义键值存储服务
+service KeyValueStore {
+  // 存储键值对
+  rpc Put (KeyValue) returns (OperationResponse);
+  // 获取键对应的值
+  rpc Get (Key) returns (Value);
+  // 删除键值对
+  rpc Delete (Key) returns (OperationResponse);
+  // 列出所有键
+  rpc ListKeys (Empty) returns (KeyList);
+}
+
+// 键值对消息
+message KeyValue {
+  string key = 1;
+  string value = 2;
+}
+
+// 键消息
+message Key {
+  string key = 1;
+}
+
+// 值消息
+message Value {
+  string value = 1;
+}
+
+// 操作响应
+message OperationResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// 键列表
+message KeyList {
+  repeated string keys = 1;
+}
+
+// 空消息
+message Empty {}
